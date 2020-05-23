@@ -46,7 +46,6 @@ class SnakeLadder
     switch(t)
      {
        case 6:t=37;break;
-       case 7:t=23;break;
        case 9:t=50;break;
        case 15:t=67;break;
        case 21:t=57;break;
@@ -77,7 +76,6 @@ class SnakeLadder
       t=1;
      else if(t!=0 && (t+u)<=100)
       t=t+u;
-     t=runner(t);
      return  t;
    }
    public static void main(String args[])
@@ -87,7 +85,7 @@ class SnakeLadder
     int n=sc.nextInt();
     sc.nextLine();
     SnakeLadder sl=new SnakeLadder(n);
-    display(sl);
+    display(sl,sl.board);
     for(int x=0;sl.board[x%n]<100;x++)
     {
       information(sl.board[x%n],sl.players[x%n]);
@@ -95,7 +93,13 @@ class SnakeLadder
       System.out.print(sl.players[x%n]+" Press a key to roll dice : ");
       String k=sc.nextLine();
       sl.board[x%n]=execute(sl.board[x%n]);
-      display(sl);
+      int board2[];
+      board2=new int [n];
+      for(int i=0;i<sl.board.length;i++){
+        board2[i]=sl.board[i];
+      }
+      sl.board[x%n]=runner(sl.board[x%n]);
+      display(sl,board2);
       if(sl.board[x%n]==100)
       {
         System.out.println(sl.players[x%n]+" wins");
@@ -104,11 +108,24 @@ class SnakeLadder
       }
     }
    }
-   static void display(SnakeLadder sl)
+   static void display(SnakeLadder sl,int board2[])
    {
      for(int i=0;i<sl.board.length;i++){
-      System.out.println(sl.players[i]+" is at "+sl.board[i]+" position.");
+      if(sl.board[i]!=board2[i]){
+        RunnerDisplay(sl.players[i],sl.board[i],board2[i]);
+      }
+      System.out.println(sl.players[i]+" is at "+sl.board[i]+" position.\n");
     }
-    System.out.println();
+    System.out.println("\n");
    }
+   static void RunnerDisplay(String name,int board,int board2){
+      if(board<board2)
+      {
+        System.out.println(name+",You face a snake at "+board2+" to "+board);
+      }
+      else if(board>board2)
+      {
+        System.out.println(name+",You face a ladder at "+board2+" to "+board);  
+      }
+    }
 }
